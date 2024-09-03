@@ -55,7 +55,7 @@
        </changeSet>
 
        <changeSet id="create UserToRole to Role FK" author="AAKvashnin">
-        <addForeignKeyConstraint baseTableName="UserToRole" baseColumnNames="RoleId" constraintName="UserToRole2RoleFK" referencedTableName="Role"
+        <addForeignKeyConstraint baseTableName="UserToRole" baseColumnNames="roleId" constraintName="UserToRole2RoleFK" referencedTableName="Role"
                                  referencedColumnNames="code"/>
        </changeSet>
 
