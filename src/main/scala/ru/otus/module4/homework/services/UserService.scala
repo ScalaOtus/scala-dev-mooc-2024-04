@@ -29,37 +29,33 @@ object UserService{
         userRepo.list()
 
 
-        def listUsersDTO(): RIO[db.DataSource,List[UserDTO]] = listUsers().map(
-            _.map((userRecord:User)=>
-                   for {
-                       userRoles <- userRepo.userRoles(userRecord.typedId)
-                   } yield (UserDTO(userRecord, userRoles.toSet ))
-                 )
-        )
+        def listUsersDTO(): RIO[db.DataSource,List[UserDTO]] = for {
+            users <- listUsers()
+            usersWithRoles <- RIO.collectAll(users.map(u=>userRepo.userRoles(u.typedId).map(l=> u->l)))
+            result <- RIO.succeed(usersWithRoles.map(u=>UserDTO(u._1, u._2.toSet)))
+        } yield result
 
         def addUserWithRole(user: User, roleCode: RoleCode): RIO[db.DataSource, UserDTO] = {
          dc.transaction(
             for {
-            userRecord<-userRepo.createUser(user)
-            userRolesRecord<-userRepo.insertRoleToUser(roleCode, user.typedId)
-            userRoles <- userRepo.userRoles(user.typedId)
-           } yield(UserDTO(userRecord,userRoles.toSet))
+            users<-userRepo.createUser(user)
+            _<-userRepo.insertRoleToUser(roleCode, user.typedId)
+            roles <- userRepo.userRoles(users.typedId)
+            result <- RIO.succeed(UserDTO(users, roles.toSet))
+           } yield result
          )
         }
 
-        def listUsersWithRole(roleCode: RoleCode): RIO[db.DataSource,List[UserDTO]] = {
-            userRepo.listUsersWithRole(roleCode).map(
-                (user: User) =>
-                    for {
-                        userRoles <- userRepo.userRoles(user.typedId)
-                    } yield (UserDTO(user, userRoles.toSet))
-            )
-        }
+        def listUsersWithRole(roleCode: RoleCode): RIO[db.DataSource,List[UserDTO]] = for {
+            users<-userRepo.listUsersWithRole(roleCode)
+            usersWithRoles <- RIO.collectAll(users.map(u=>userRepo.userRoles(u.typedId).map(l=> u->l)))
+            result <- RIO.succeed(usersWithRoles.map(u=>UserDTO(u._1, u._2.toSet)))
+        } yield result
         
         
     }
 
-    val live: ZLayer[UserRepository.UserRepository, Nothing, UserService] = ZLayer.fromServices[UserRepository.Service, UserService.Service]((repo)=>new Impl(repo))
+    val live: ZLayer[UserRepository.UserRepository, Nothing, UserService] = ZLayer.fromService[UserRepository.Service, UserService.Service](repo=>new Impl(repo))
 }
 
 case class UserDTO(user: User, roles: Set[Role])
