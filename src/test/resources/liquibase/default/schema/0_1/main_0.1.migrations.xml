@@ -6,7 +6,7 @@
                             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
         <changeSet id="create User table" author="AAKvashnin">
-          <createTable tableName="Users">
+          <createTable tableName="users">
               <column name="id" type="text">
                 <constraints primaryKey="true" nullable="false"/>
               </column>
@@ -24,7 +24,7 @@
 
 
         <changeSet id="create UserToRole table" author="AAKvashnin">
-          <createTable tableName="UserToRole">
+          <createTable tableName="usertorole">
               <column name="roleId" type="text">
                 <constraints nullable="false"/>
               </column>
@@ -35,7 +35,7 @@
         </changeSet>
     
         <changeSet id="create Role Table" author="AAKvashnin">
-            <createTable tableName="Roles">
+            <createTable tableName="roles">
                 <column name="code" type="text">
                     <constraints primaryKey="true" nullable="false"/>
                 </column>
@@ -46,16 +46,16 @@
         </changeSet>
          
         <changeSet id="create UserToRole Primary Key" author="AAKvashnin">
-            <addPrimaryKey tableName="UserToRole" columnNames="roleId,userId"/>
+            <addPrimaryKey tableName="usertorole" columnNames="roleId,userId"/>
         </changeSet>
     
        <changeSet id="create UserToRole to User FK" author="AAKvashnin">
-           <addForeignKeyConstraint baseTableName="UserToRole" baseColumnNames="userId" constraintName="UserToRole2UserFK" referencedTableName="Users"
+           <addForeignKeyConstraint baseTableName="usertorole" baseColumnNames="userId" constraintName="UserToRole2UserFK" referencedTableName="users"
                                     referencedColumnNames="id"/>
        </changeSet>
 
        <changeSet id="create UserToRole to Role FK" author="AAKvashnin">
-        <addForeignKeyConstraint baseTableName="UserToRole" baseColumnNames="roleId" constraintName="UserToRole2RoleFK" referencedTableName="Roles"
+        <addForeignKeyConstraint baseTableName="usertorole" baseColumnNames="roleId" constraintName="UserToRole2RoleFK" referencedTableName="roles"
                                  referencedColumnNames="code"/>
        </changeSet>
 

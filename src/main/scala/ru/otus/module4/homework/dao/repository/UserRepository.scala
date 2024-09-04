@@ -34,15 +34,15 @@ object UserRepository{
     class ServiceImpl extends Service{
 
         val userSchema = quote {
-            querySchema[User]("""Users""")
+            querySchema[User]("""users""")
         }
 
         val userToRoleSchema = quote {
-            querySchema[UserToRole]("""UserToRole""")
+            querySchema[UserToRole]("""usertorole""")
         }
 
         val roleSchema = quote {
-            querySchema[Role]("""Roles""")
+            querySchema[Role]("""roles""")
         }
 
         override def findUser(userId: UserId): QIO[Option[User]] = dc.run(userSchema.filter(_.id == lift(userId.id)).sortBy(_.id).take(1)).map(_.headOption)
