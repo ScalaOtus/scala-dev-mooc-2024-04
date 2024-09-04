@@ -49,15 +49,6 @@
             <addPrimaryKey tableName="usertorole" columnNames="roleId,userId"/>
         </changeSet>
     
-       <changeSet id="create UserToRole to User FK" author="AAKvashnin">
-           <addForeignKeyConstraint baseTableName="usertorole" baseColumnNames="userId" constraintName="UserToRole2UserFK" referencedTableName="users"
-                                    referencedColumnNames="id"/>
-       </changeSet>
-
-       <changeSet id="create UserToRole to Role FK" author="AAKvashnin">
-        <addForeignKeyConstraint baseTableName="usertorole" baseColumnNames="roleId" constraintName="UserToRole2RoleFK" referencedTableName="roles"
-                                 referencedColumnNames="code"/>
-       </changeSet>
 
        <changeSet id="insert manager role" author="AAKvashnin">
            <insert tableName="roles">
