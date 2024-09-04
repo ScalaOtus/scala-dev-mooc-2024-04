@@ -59,4 +59,11 @@
                                  referencedColumnNames="code"/>
        </changeSet>
 
+       <changeSet id="insert manager role" author="AAKvashnin">
+           <insert tableName="roles">
+               <column name="code" value="manager"/>
+               <column name="name" value="manager"/>
+           </insert>
+       </changeSet>
+
 </databaseChangeLog>
