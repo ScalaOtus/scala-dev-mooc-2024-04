@@ -48,7 +48,7 @@
         <changeSet id="create UserToRole Primary Key" author="AAKvashnin">
             <addPrimaryKey tableName="usertorole" columnNames="roleId,userId"/>
         </changeSet>
-    
+
 
        <changeSet id="insert manager role" author="AAKvashnin">
            <insert tableName="roles">
