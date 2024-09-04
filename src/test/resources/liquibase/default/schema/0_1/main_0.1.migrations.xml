@@ -62,7 +62,7 @@
        <changeSet id="insert manager role" author="AAKvashnin">
            <insert tableName="roles">
                <column name="code" value="manager"/>
-               <column name="name" value="manager"/>
+               <column name="name" value="Manager"/>
            </insert>
        </changeSet>
 
