@@ -6,7 +6,7 @@
                             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
         <changeSet id="create User table" author="AAKvashnin">
-          <createTable tableName="User">
+          <createTable tableName="Users">
               <column name="id" type="text">
                 <constraints primaryKey="true" nullable="false"/>
               </column>
@@ -35,7 +35,7 @@
         </changeSet>
     
         <changeSet id="create Role Table" author="AAKvashnin">
-            <createTable tableName="Role">
+            <createTable tableName="Roles">
                 <column name="code" type="text">
                     <constraints primaryKey="true" nullable="false"/>
                 </column>
@@ -50,12 +50,12 @@
         </changeSet>
     
        <changeSet id="create UserToRole to User FK" author="AAKvashnin">
-           <addForeignKeyConstraint baseTableName="UserToRole" baseColumnNames="userId" constraintName="UserToRole2UserFK" referencedTableName="User"
+           <addForeignKeyConstraint baseTableName="UserToRole" baseColumnNames="userId" constraintName="UserToRole2UserFK" referencedTableName="Users"
                                     referencedColumnNames="id"/>
        </changeSet>
 
        <changeSet id="create UserToRole to Role FK" author="AAKvashnin">
-        <addForeignKeyConstraint baseTableName="UserToRole" baseColumnNames="roleId" constraintName="UserToRole2RoleFK" referencedTableName="Role"
+        <addForeignKeyConstraint baseTableName="UserToRole" baseColumnNames="roleId" constraintName="UserToRole2RoleFK" referencedTableName="Roles"
                                  referencedColumnNames="code"/>
        </changeSet>
 
